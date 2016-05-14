@@ -99,6 +99,4 @@ function sentimentForSentence(sentence, callback) {
   })
 }
 
-sentimentForSentence("This hackathon is really cool. I also think that the venue is cool. I don't like Alicia.", function(response) {
-  console.log("Sentiment Processed");
-})
+exports.sentimentForSentence = sentimentForSentence

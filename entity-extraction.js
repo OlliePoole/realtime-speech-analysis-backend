@@ -1,7 +1,16 @@
-// MODULES ===============================================
-var urlencoded = require('body-parser').urlencoded({extended: false})
-var havenondemand = require('havenondemand')
+var entityExtraction =  require('haven-entity-extraction');
 var config = require('./config');
 
-// CLIENT CONFIG =========================================
-var client = new havenondemand.HODClient(config.hp_api_key, 'v1', '');
+function entitiesForSentence(sentence, callback) {
+
+  entityExtraction(sentence, config.hp_api_key, function(results){
+      console.log(results); // Do some awesome stuff with results
+      callback(results);
+  });
+}
+
+module.exports = function(textToParse, callback) {
+  entitiesForSentence(textToParse, function(response) {
+    callback(response)
+  })
+};

@@ -44,11 +44,11 @@ Example response
 
 function sentimentForSentence(sentence, callback) {
 
-  client.call('analyzesentiment', {text: sentence}, function(err1, resp1){
+  client.call('analyzesentiment', {text: sentence}, function(error, resp){
     console.log("---------------------------------------------\n")
 
     // POSITIVE
-    var positiveSentiment = resp1.body.positive
+    var positiveSentiment = resp.body.positive
     if (positiveSentiment.length > 0) {
       console.log("POSITIVE SENTIMENT");
       console.log("---------------------------------------------")
@@ -66,7 +66,7 @@ function sentimentForSentence(sentence, callback) {
     }
 
     // NEGATIVE
-    var negativeSentiment = resp1.body.negative
+    var negativeSentiment = resp.body.negative
 
     if (negativeSentiment.length > 0) {
       console.log("NEGATIVE SENTIMENT");
@@ -88,15 +88,19 @@ function sentimentForSentence(sentence, callback) {
     console.log("OVERALL SENTIMENT");
     console.log("---------------------------------------------\n")
 
-    var sentiment = resp1.body.aggregate.sentiment
-    var score = resp1.body.aggregate.score
+    var sentiment = resp.body.aggregate.sentiment
+    var score = resp.body.aggregate.score
 
     console.log("Overall Sentiment: " + sentiment);
     console.log("Overall Score: " + score + '\n');
 
     // return using the callback
-    callback(resp1)
+    callback(resp)
   })
 }
 
-exports.sentimentForSentence = sentimentForSentence
+module.exports = function(textToParse, callback) {
+  sentimentForSentence(textToParse, function(response) {
+    callback(response)
+  })
+}
